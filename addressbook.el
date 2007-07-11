@@ -1940,6 +1940,16 @@ This function stores the retrieved vCard information in
     (addrbook-be-multiple-delete-card card-id))
    (t
     (error "No valid addressbook backend selected."))))
+
+(defun addrbook-be-card-modified (card-id)
+  "Tell the backend a given card has been modified"
+  (cond
+   ((equal addrbook-backend 'addrbook-backend-simple)
+    (addrbook-be-simple-card-modified card-id))
+   ((equal addrbook-backend 'addrbook-backend-multiple)
+    (addrbook-be-multiple-card-modified card-id))
+   (t
+    (error "No valid addressbookº  backend selected."))))
   
 ;;;; ** Simple backend
 
