@@ -144,7 +144,10 @@
 ;;;; Variables
 
 (defvar vcard-mode-properties-nodisplay
-  '("sound" "agent" "version" "uid" "label" "mailer" "uid"))
+  '("sound" "agent" "version" "label" "mailer" "uid"))
+
+(defvar vcard-mode-data nil
+  "vCard object.")
 
 (defvar vcard-mode-image-types
   '(("gif" nil)
@@ -226,17 +229,18 @@
      (("tel" "Telephone Number" ?t nil
        ("type" (("cell" "cellular" ?c)
                 ("home" "home" ?h)
-                ("pref" "preferred" ?p)
+                ("pref" "preferred" ?f)
                 ("work" "work" ?w)
                 ("voice" "voice" ?v)
-                ("fax" "facsimile" ?f)
+                ("fax" "facsimile" ?x)
                 ("msg" "messaging service" ?m)
                 ("pager" "pager" ?g)
                 ("bbs" "bbs" ?b)
                 ("modem" "modem" ?o)
                 ("car" "car-phone" ?r)
                 ("isdn" "isdn" ?i)
-                ("video" "video-phone" ?d))
+                ("video" "video-phone" ?d)
+                ("pcs" "pcs" ?p))
         t nil))
       ("email" "Electronic Mail" ?e nil
        ("type" (("internet" "smtp" ?s)
@@ -309,7 +313,8 @@
      ?s))
   "vCard specification standard properties")
 
-(defvar vcard-mode-required-attrs '("n")
+;; RFC2426 says we must have at least these attrs
+(defvar vcard-mode-required-attrs '("version" "fn" "n")
   "List of required attributes")
 
 (defvar vcard-mode-general-params
@@ -1198,7 +1203,7 @@ where each field FIELD is defined with the following structure:
     ;; Save the card data
     (vcard-insert vcard-mode-data)
     (message (concat "Wrote " (buffer-file-name)))))
-  
+
 ;;;; Utility functions
 
 (defun vcard-mode-get-text-property-line (prop)
@@ -1464,7 +1469,7 @@ Commands:
       (setq mode-name "VCard")
       (setq major-mode 'vcard-mode)
       ;; Parse vcard data in the current buffer
-      (setq vcard-mode-data (car (vcard-parse-string 
+      (setq vcard-mode-data (car (vcard-parse-string
                                   (buffer-substring (point-min) (point-max)))))
       ;; Hide original vcard data
       (overlay-put original-text-overlay 'invisible t)
