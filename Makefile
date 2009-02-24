@@ -1,5 +1,5 @@
-# Copyright (C) 2007  Xavier Maillard  <xma@gnu.org>
-#                     Jose E. Marchesi <jemarch@gnu.org>
+# Copyright (C) 2007, 2008, 2009  Xavier Maillard  <xma@gnu.org>
+#                                 Jose E. Marchesi <jemarch@gnu.org>
 
 # This file is NOT part of GNU Emacs.
 

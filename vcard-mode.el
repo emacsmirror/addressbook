@@ -1,6 +1,6 @@
 ;;;; vcard-mode.el --- Major mode for vcard editing
 
-;; Copyright (C) 2008 Jose E. Marchesi
+;; Copyright (C) 2008, 2009 Jose E. Marchesi
 
 ;; Maintainer: Jose E. Marchesi <jemarch@gnu.org>
 ;; Keyword: contacts, applications
