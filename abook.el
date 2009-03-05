@@ -1721,6 +1721,7 @@ Return the index position of the new card"
               (dolist (new-card vcard)
                 (abook-set-card index new-card)
                 (add-to-list 'abook-modified-cards index)
+                ;; FIXME: update the summary buffer, if it exists
                 (setq index (1+ index)))
 	    (error "Vcard import failed!"))
 	;; Just to be sure, call save-cards
