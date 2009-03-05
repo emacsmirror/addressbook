@@ -1718,9 +1718,10 @@ Return the index position of the new card"
       (unwind-protect
 	  (if (and (setq index (length abook-cards))
 		   (setq vcard (vcard-parse-file filename)))
-	      (progn
-		(abook-set-card index (car vcard))
-		(add-to-list 'abook-modified-cards index))
+              (dolist (new-card vcard)
+                (abook-set-card index new-card)
+                (add-to-list 'abook-modified-cards index)
+                (setq index (1+ index)))
 	    (error "Vcard import failed!"))
 	;; Just to be sure, call save-cards
 	(abook-save-cards nil)))
