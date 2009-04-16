@@ -100,11 +100,6 @@
   "Addressbook hooks"
   :group 'abook)
 
-(defcustom abook-directory "~/.contacts"
-  "Directory with stored vCards"
-  :type 'directory
-  :group 'abook)
-
 (defcustom abook-display-images t
   "Display images in the addressbook"
   :type 'boolean
