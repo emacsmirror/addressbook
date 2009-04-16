@@ -131,7 +131,7 @@
 
 (defcustom abook-ask-for-search
   nil
-  "Whether the addressbook should ask for a search upon `addressbook' invocation"
+  "Whether the addressbook should ask for a search upon `abook' invocation"
   :type 'boolean
   :group 'abook)
 
