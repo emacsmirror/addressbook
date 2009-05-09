@@ -1461,7 +1461,10 @@ If `nil', do not show anything.")
     (when (not buffer)
       (setq buffer (abook-make-summary-buffer)))
     (switch-to-buffer-other-window abook-summary-buffer)
+    ;; The overlay set by the following function is not working when
+    ;; installed here... wtf???
     (abook-summary-goto-contact 0 t)))
+
 
 (defun abook-summarize ()
   "Summarize the contents of the addressbook in a summary buffer.
