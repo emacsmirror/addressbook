@@ -28,7 +28,9 @@ EMACS = emacs
 SITEFLAG=--no-site-file
 GZIP=gzip
 
-SOURCE=$(wildcard *.el)
+SOURCE = uuid.el \
+         vcard.el \
+         abook.el
 TARGET=$(patsubst %.el,%.elc,$(SOURCE))
 COMPILED=$(wildcard *.elc)
 
