@@ -854,20 +854,17 @@ When ressource is of type URL, we use url package to get the image data."
     ;; Determine emacs image type
     (setq image-type
           (cadr (assoc photo-type abook-image-types)))
-
     ;; Display the image or a link
     (when (and abook-display-images
                (display-images-p)
                image-type
                (image-type-available-p image-type)
                (not (abook-contact-photo-displayed-p)))
-
       ;; Get image data
       (let ((image-data
 	     (if (equal photo-value "url")
 		 (save-excursion
 		   (require 'url)
-
 		   (let ((image-buffer (url-retrieve-synchronously attr-value)))
 		     (if image-buffer
 			 (unwind-protect
@@ -877,11 +874,9 @@ When ressource is of type URL, we use url package to get the image data."
 			       (re-search-forward "^\r?$" nil 1)
 			       (forward-line)
 			       (delete-region (point-min) (point))
-
 			       (setq image-data (string-as-unibyte (buffer-string))))
 			   (kill-buffer image-buffer)))))
 	       attr-value)))
-
 	;; Display the image
 	(save-excursion
 	  (goto-char (point-min))
