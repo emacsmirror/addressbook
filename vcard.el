@@ -1,7 +1,7 @@
 ;;; vcard.el --- vcard parsing routines
 
 ;; Copyright (C) 1997, 1999, 2000 Noah S. Friedman
-;; Copyright (C) 2007 Jose E. Marchesi
+;; Copyright (C) 2007, 2008, 2009 Jose E. Marchesi
 
 ;; Author: Noah Friedman <friedman@splode.com>
 ;; Maintainer: friedman@splode.com
