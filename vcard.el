@@ -124,6 +124,11 @@ the function `vcard-standard-filter' is supplied as the second argument to
     ("base64"           . vcard-region-decode-base64)
     ("b"                . vcard-region-decode-base64)))
 
+(defvar vcard-string-encoder-methods
+  '(("quoted-printable" . quoted-printable-encode-string)
+    ("base64"           . base64-encode-string)
+    ("b"                . base64-encode-string)))
+
 (defvar vcard-regexp-begin-vcard "^begin:[ \t]*vcard[ \t]*\n"
   "Regexp to match the begin of a vcard")
 (defvar vcard-regexp-end-vcard "^end[ \t]*:[ \t]*vcard[ \t]*$"
@@ -256,8 +261,7 @@ Note: this function modifies the buffer!"
                  (funcall decoder pos match-beg)
                  (setq result (cons (buffer-substring pos match-beg) result))
                  (set-marker pos (marker-position match-end))))
-             (setq result (nreverse result))
-             (vcard-set-property proplist "encoding" nil))
+             (setq result (nreverse result)))
             (t
              (setq result (vcard-split-string (buffer-string) ";")))))
     (goto-char (point-max))
@@ -510,11 +514,13 @@ Return nil if PROPERTY is not a property of ATTR."
   "Insert the textual representation of VCARD in the current buffer.
 Leave the point after the last inserted character.
 VCARD is a parsed vCard."
+  ;; XXX: Take care about encodings!!!
   (insert "begin: vcard")
   (insert "\n")
   (dolist (attr vcard)
     (let ((proplist (vcard-attr-get-proplist attr))
-          (values (vcard-attr-get-values attr)))
+          (values (vcard-attr-get-values attr))
+          encoding encoder)
       (dotimes (i (length proplist))
         (let ((prop (nth i proplist)))
           (if (listp prop)
@@ -526,8 +532,12 @@ VCARD is a parsed vCard."
             (insert ";")))
       (insert ":")
       (insert " ")
+      (setq encoding (vcard-get-property proplist "encoding"))
+      (setq encoder (cdr (assoc encoding vcard-string-encoder-methods)))
       (dotimes (i (length values))
         (let ((value (nth i values)))
+          (when encoder
+            (setq value (funcall encoder value)))
           (insert value)
           (if (not (equal i (- (length values) 1)))
               (insert ";"))))
@@ -636,9 +646,8 @@ US domestic telephone numbers are replaced with international format."
           (let ((s (buffer-substring (1+ (match-beginning 0)) (match-end 0))))
             (replace-match (vcard-hexstring-to-ascii s) t t)))))))
 
-(defun vcard-region-decode-base64 (&optional beg end)
+(defun vcard-region-decode-base64 (beg end)
   (base64-decode-region beg end))
-
 
 (defun vcard-split-string (string &optional separator limit)
   "Split STRING at occurences of SEPARATOR.  Return a list of substrings.
