@@ -4,7 +4,7 @@
 ;; Copyright (C) 2007, 2008, 2009 Jose E. Marchesi
 
 ;; Author: Noah Friedman <friedman@splode.com>
-;; Maintainer: friedman@splode.com
+;; Maintainer: jemarch@gnu.org
 ;; Keywords: vcard, mail, news
 ;; Created: 1997-09-27
 
@@ -647,6 +647,11 @@ US domestic telephone numbers are replaced with international format."
             (replace-match (vcard-hexstring-to-ascii s) t t)))))))
 
 (defun vcard-region-decode-base64 (beg end)
+  (goto-char beg)
+  (while (re-search-forward " +" end t)
+    (replace-match "\n"))
+  (when (> (point) end)
+    (setq end (point)))
   (base64-decode-region beg end))
 
 (defun vcard-split-string (string &optional separator limit)
