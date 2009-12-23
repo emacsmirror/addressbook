@@ -1524,6 +1524,13 @@ The format is as described in the variable `abook-summary-format'"
      (t
       (abook-summary-goto-contact (- card-index 1) t)))))
 
+(defun abook-summary-select-contact ()
+  "Select the contact under point, if any."
+  (interactive)
+  (let ((card-index (abook-summary-get-current-card)))
+    (when card-index
+      (abook-summary-goto-contact card-index))))
+
 (defun abook-summary-create-contact ()
   ""
   (interactive)
@@ -1579,6 +1586,7 @@ Commands:
   (setq abook-summary-mode-map (make-keymap))
   (define-key abook-summary-mode-map "n" 'abook-summary-next-contact)
   (define-key abook-summary-mode-map "p" 'abook-summary-previous-contact)
+  (define-key abook-summary-mode-map (kbd "SPC") 'abook-summary-select-contact)
   (define-key abook-summary-mode-map (kbd "<down>") 'abook-summary-next-contact)
   (define-key abook-summary-mode-map (kbd "<up>") 'abook-summary-previous-contact)
   (define-key abook-summary-mode-map (kbd "RET") 'abook-summary-show-contact)
