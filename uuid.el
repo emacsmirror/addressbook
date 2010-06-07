@@ -45,7 +45,7 @@
 ;;
 ;;  00000000-0000-0000-0000-000000000000
 ;;
-;; There are three standarized ways to generate the values of those
+;; There are three standardized ways to generate the values of those
 ;; fields:
 ;;
 ;;   - time-based
@@ -75,7 +75,7 @@
   "/sbin/ifconfig"
   "Location of the `ifconfig' program to determine the MAC
 address to use in the time-based method. If it is set to nil,
-then a standarized alternative random method is used."
+then a standardized alternative random method is used."
   :group 'uuid)
 
 (defvar uuid-hexoctect-regexp
