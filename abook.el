@@ -1412,7 +1412,6 @@ If `nil', do not show anything.")
     ;; installed here... wtf???
     (abook-summary-goto-contact 0 t)))
 
-
 (defun abook-summarize ()
   "Summarize the contents of the addressbook in a summary buffer.
 

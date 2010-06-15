@@ -1,3 +1,7 @@
+2010-06-07  Jose E. Marchesi  <jemarch@gnu.org>
+
+	* uuid.el: Some typos fixed.
+
 2009-12-23  Jose E. Marchesi  <jemarch@gnu.org>
 
 	* abook.el (abook-summary-select-contact): New function.
