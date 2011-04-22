@@ -2244,21 +2244,41 @@ attributes."
             (throw 'exit t))
           (abook-sort-cards)
           (if (not (equal user-input ""))
-              (let ((found-cards (abook-search-cards user-input)))
-                (if found-cards
-                    (setq show-card-index (car found-cards))
-                  (message "No contacts found")
-                  (throw 'exit t))
-                ;; Goto the first card with matched data
-                (abook-create-contact-buffer)
-                (abook-contact-display-card show-card-index)
-                (setq abook-modified-cards nil)
-                (switch-to-buffer-other-window (get-buffer abook-contact-buffer-name))
-                (setq buffer-read-only t)
-                (setq abook-buffer buffer))
-            ;; Goto the summary
-            (abook-summary))))
-      (abook-show-summary))))
+	      (let ((found-card-indices (abook-search-cards user-input)))
+		;; recognize there are three possibilities: (1) no matches (2) single match (3) multiple matches
+		(cond ((not found-card-indices)
+		       (message "No contacts found")
+		       (throw 'exit t))
+		      ((= (length found-card-indices) 1)
+		       ;; Goto the card with matched data
+		       (setq show-card-index (car found-card-indices))
+		       (abook-create-contact-buffer)
+		       (abook-contact-display-card show-card-index)
+		       (setq abook-modified-cards nil)
+		       (abook-show-contact))
+		      (t
+		       ;; Use completions for multiple matches
+		       (let* ((name-index-alist
+			       (mapcar #'(lambda (found-card-index)
+					   (cons 
+					    ;; ?? name ('n') or fullname ('fn')
+					    (let ((name? (first (vcard-ref (nth found-card-index abook-cards) '("fn")))))
+					      (if name? (second name?) "??"))
+					    found-card-index))
+				       found-card-indices))
+			      (selected-name
+			       (minibuffer-with-setup-hook 'minibuffer-complete 
+				 (let ((completion-ignore-case nil)) 
+				   (completing-read "Select record: " name-index-alist)))))
+			 (when selected-name
+			   (setq show-card-index (cdr (assoc-string selected-name name-index-alist)))
+			   (abook-create-contact-buffer)
+			   (abook-contact-display-card show-card-index)
+			   (setq abook-modified-cards nil)
+			   (abook-show-contact))))))
+	    ;; Goto the summary
+	    (progn (abook-summary)
+		   (abook-show-summary))))))))
 
 
 ;;;###autoload

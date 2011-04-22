@@ -1,3 +1,9 @@
+2011-04-22  Jose E. Marchesi  <jemarch@gnu.org>
+
+	* abook.el (abook): Handle searches with several matches by asking
+	the user to autocomplete the desired contact.  Patch by David
+	Thompson.
+
 2010-06-07  Jose E. Marchesi  <jemarch@gnu.org>
 
 	* uuid.el: Some typos fixed.
